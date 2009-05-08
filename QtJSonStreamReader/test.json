@@ -1,0 +1,23 @@
+{
+     "firstName": "John",
+     "lastName": "Smith",
+     "address": {
+         "streetAddress": "One Infinite Loop",
+         "city": "Cuppertino",
+         "state": "CA",
+         "postalCode": 10021,
+		 "infos" : [ 1, 2, 3, 4 ],
+		 "homes" : { "Number" : 10, "Colors" : "Red" }
+     },
+     "phoneNumbers": [
+         "212 555-1234",
+         "646 555-4567"
+     ],
+	 "objList": [
+		{ "A" : 1, "B" : 2 },
+		{ "A" : 3, "B" : 4 }
+	 ],
+	"key" : "123598985236236",
+	"double" : 124.54
+ }
+
