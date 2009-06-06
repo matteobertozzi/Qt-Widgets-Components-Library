@@ -93,7 +93,7 @@ class THGoogleAuth : public QObject {
 		const QString& lsid (void) const;
 		const QString& auth (void) const;
 
-	signals:
+	Q_SIGNALS:
 		void authenticated (bool error = false);
 		void captchaRequired (	const QString& captchaToken,
 								const QString& captchaUrl);
@@ -107,7 +107,7 @@ class THGoogleAuth : public QObject {
 					const QString& loginToken = QString(),
 					const QString& loginCaptcha = QString());
 
-	protected Q_SLOTS:
+	private Q_SLOTS:
 		void authDone (bool error);
 
 	private:
