@@ -387,6 +387,7 @@ void THJsonStreamReader::addData (const QByteArray& data) {
 
 	QBuffer *buffer = new QBuffer;
 	buffer->setData(data);
+    buffer->open(QIODevice::ReadOnly);
 	d->useBuffer = true;
 	d->device = buffer;
 }
@@ -396,6 +397,7 @@ void THJsonStreamReader::addData (const QString& data) {
 
 	QBuffer *buffer = new QBuffer;
 	buffer->setData(data.toLatin1());
+    buffer->open(QIODevice::ReadOnly);
 	d->useBuffer = true;
 	d->device = buffer;
 }
@@ -405,6 +407,7 @@ void THJsonStreamReader::addData (const char *data) {
 
 	QBuffer *buffer = new QBuffer;
 	buffer->setData(data);
+    buffer->open(QIODevice::ReadOnly);
 	d->useBuffer = true;
 	d->device = buffer;
 }
