@@ -35,22 +35,26 @@ class THGoogleService : public QObject {
         THGoogleService (QObject *parent = 0);
         ~THGoogleService();
 
+        bool hasApiKey (void) const;
         QString apiKey (void) const;
         void setApiKey (const QString& apiKey);
 
+        bool hasHostLanguage (void) const;
         QString hostLanguage (void) const;
         void setHostLanguage (const QString& hl);
 
-        void get (const QUrl& url);
-        void get (const QNetworkRequest& request);
+        QNetworkReply *get (const QUrl& url);
+        QNetworkReply *get (const QNetworkRequest& request);
 
-        void post (const QUrl& url, QIODevice *data);
-        void post (const QUrl& url, const QByteArray& data);
-        void post (const QNetworkRequest& request, QIODevice *data);
-        void post (const QNetworkRequest& request, const QByteArray& data);
+        QNetworkReply *post (const QUrl& url, QIODevice *data);
+        QNetworkReply *post (const QUrl& url, const QByteArray& data);
+        QNetworkReply *post (const QNetworkRequest& request, QIODevice *data);
+        QNetworkReply *post (const QNetworkRequest& request, 
+                             const QByteArray& data);
 
         int responseStatus (void) const;
         QString errorString (void) const;
+        bool responseStatusIsError (void) const;
 
     Q_SIGNALS:
         void finished (bool error);
@@ -59,6 +63,7 @@ class THGoogleService : public QObject {
         virtual void responseReceived (QNetworkReply *reply);
 
     protected:
+        virtual void parseResponse (QNetworkReply *reply);
         virtual void parseResponse (const QByteArray& data);
 
     protected:

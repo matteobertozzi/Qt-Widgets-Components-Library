@@ -81,10 +81,10 @@ void THGoogleDetectLanguage::detectLanguage (const QString& query) {
     url.addQueryItem("q", query);
     url.addQueryItem("v", "1.0");
 
-    if (!hostLanguage().isEmpty())
+    if (hasHostLanguage())
         url.addQueryItem("hl", hostLanguage());
 
-    if (!apiKey().isEmpty())
+    if (hasApiKey())
         url.addQueryItem("key", apiKey());
 
     get(url);

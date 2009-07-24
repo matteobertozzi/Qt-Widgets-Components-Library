@@ -181,15 +181,15 @@ QString THGoogleAuth::errorString (void) const {
 	return(d->errorMessage());
 }
 
-const QString& THGoogleAuth::sid (void) const {
+QString THGoogleAuth::sid (void) const {
 	return(d->sid);
 }
 
-const QString& THGoogleAuth::lsid (void) const {
+QString THGoogleAuth::lsid (void) const {
 	return(d->lsid);
 }
 
-const QString& THGoogleAuth::auth (void) const {
+QString THGoogleAuth::auth (void) const {
 	return(d->auth);
 }
 

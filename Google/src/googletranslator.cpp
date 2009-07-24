@@ -95,10 +95,11 @@ void THGoogleTranslator::translate (const QString& query) {
     url.addQueryItem("q", query);
     url.addQueryItem("v", "1.0");
     url.addQueryItem("langpair", d->srcLang + '|' + d->dstLang);
-    if (!hostLanguage().isEmpty())
+
+    if (hasHostLanguage())
         url.addQueryItem("hl", hostLanguage());
 
-    if (!apiKey().isEmpty())
+    if (hasApiKey())
         url.addQueryItem("key", apiKey());
 
     get(url);

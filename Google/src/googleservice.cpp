@@ -60,37 +60,41 @@ THGoogleService::~THGoogleService() {
 // ===========================================================================
 //  PUBLIC Methods
 // ===========================================================================
-void THGoogleService::get (const QUrl& url) {
+QNetworkReply *THGoogleService::get (const QUrl& url) {
     d->resetResponseInfo();
-    d->networkManager.get(QNetworkRequest(url));
+    return(d->networkManager.get(QNetworkRequest(url)));
 }
 
-void THGoogleService::get (const QNetworkRequest& request) {
+QNetworkReply *THGoogleService::get (const QNetworkRequest& request) {
     d->resetResponseInfo();
-    d->networkManager.get(request);
+    return(d->networkManager.get(request));
 }
 
-void THGoogleService::post (const QUrl& url, QIODevice *data) {
+QNetworkReply *THGoogleService::post (const QUrl& url, QIODevice *data) {
     d->resetResponseInfo();
-    d->networkManager.post(QNetworkRequest(url), data);
+    return(d->networkManager.post(QNetworkRequest(url), data));
 }
 
-void THGoogleService::post (const QUrl& url, const QByteArray& data) {
-    d->resetResponseInfo();
-    d->networkManager.post(QNetworkRequest(url), data);
-}
-
-void THGoogleService::post (const QNetworkRequest& request, QIODevice *data) {
-    d->resetResponseInfo();
-    d->networkManager.post(request, data);
-}
-
-
-void THGoogleService::post (const QNetworkRequest& request, 
-                            const QByteArray& data)
+QNetworkReply *THGoogleService::post (const QUrl& url, 
+                                      const QByteArray& data)
 {
     d->resetResponseInfo();
-    d->networkManager.post(request, data);
+    return(d->networkManager.post(QNetworkRequest(url), data));
+}
+
+QNetworkReply *THGoogleService::post (const QNetworkRequest& request, 
+                                      QIODevice *data)
+{
+    d->resetResponseInfo();
+    return(d->networkManager.post(request, data));
+}
+
+
+QNetworkReply *THGoogleService::post (const QNetworkRequest& request, 
+                                      const QByteArray& data)
+{
+    d->resetResponseInfo();
+    return(d->networkManager.post(request, data));
 }
 
 // ===========================================================================
@@ -100,8 +104,16 @@ int THGoogleService::responseStatus (void) const {
     return(d->responseStatus);
 }
 
+bool THGoogleService::responseStatusIsError (void) const {
+    return(d->responseStatus != 200 && d->responseStatus != 201);
+}
+
 QString THGoogleService::errorString (void) const {
     return(d->errorString);
+}
+
+bool THGoogleService::hasApiKey (void) const {
+    return(!d->apiKey.isEmpty());
 }
 
 QString THGoogleService::apiKey (void) const {
@@ -112,6 +124,10 @@ void THGoogleService::setApiKey (const QString& apiKey) {
     d->apiKey = apiKey;
 }
 
+
+bool THGoogleService::hasHostLanguage (void) const {
+    return(!d->hostLanguage.isEmpty());
+}
 
 QString THGoogleService::hostLanguage (void) const {
     return(d->hostLanguage);
@@ -135,22 +151,30 @@ void THGoogleService::setResponseStatus (int responseStatus) {
 // ===========================================================================
 //  PROTECTED Slots
 // ===========================================================================
+#include <QDebug>
 void THGoogleService::responseReceived (QNetworkReply *reply) {
     d->responseStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (reply->error()) {
         d->errorString = reply->errorString();
-        emit finished(false);
+        qDebug() << reply->readAll();
+        emit finished(true);
     } else {
-        parseResponse(reply->readAll());
+        parseResponse(reply);
     }
 }
 
 // ===========================================================================
 //  PROTECTED Methods
 // ===========================================================================
+void THGoogleService::parseResponse (QNetworkReply *reply) {
+    parseResponse(reply->readAll());
+}
+
 void THGoogleService::parseResponse (const QByteArray& data) {
     Q_UNUSED(data)
     qWarning("Parse Response of this Service is Not Implemented");
+    qWarning(data.constData());
+    emit finished(false);
 }
 
 

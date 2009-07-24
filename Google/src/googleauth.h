@@ -89,9 +89,9 @@ class THGoogleAuth : public QObject {
 		Error error (void) const;
 		QString errorString (void) const;
 
-		const QString& sid (void) const;
-		const QString& lsid (void) const;
-		const QString& auth (void) const;
+		QString sid (void) const;
+		QString lsid (void) const;
+		QString auth (void) const;
 
 	Q_SIGNALS:
 		void authenticated (bool error = false);
